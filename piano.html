@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Mini Piano</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+        }
+        .piano {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .key {
+            width: 60px;
+            height: 200px;
+            margin: 0 2px;
+            background-color: white;
+            border: 1px solid #000;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+        .key:hover {
+            background-color: #ddd;
+        }
+        .key.black {
+            width: 40px;
+            height: 120px;
+            background-color: black;
+            color: white;
+            position: relative;
+            margin-left: -20px;
+            margin-right: -20px;
+            z-index: 1;
+        }
+        .key.black:hover {
+            background-color: #555;
+        }
+    </style>
+    <script>
+        async function play(note) {
+            const esp32Address = "http://192.168.4.1"; // Substitua pelo IP do ESP32 se estiver em rede Wi-Fi local
+            const url = `${esp32Address}/play?note=${note}`;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error("Erro ao tocar a nota");
+                }
+                console.log(`Nota ${note} tocada com sucesso`);
+            } catch (error) {
+                console.error("Erro ao comunicar com o ESP32:", error);
+                alert("Erro ao comunicar com o ESP32. Verifique a conexão.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>ESP32 Mini Piano</h1>
+    <div class="piano">
+        <div class="key" onclick="play('C4')">C</div>
+        <div class="key black" onclick="play('C#4')">C#</div>
+        <div class="key" onclick="play('D4')">D</div>
+        <div class="key black" onclick="play('D#4')">D#</div>
+        <div class="key" onclick="play('E4')">E</div>
+        <div class="key" onclick="play('F4')">F</div>
+        <div class="key black" onclick="play('F#4')">F#</div>
+        <div class="key" onclick="play('G4')">G</div>
+        <div class="key black" onclick="play('G#4')">G#</div>
+        <div class="key" onclick="play('A4')">A</div>
+        <div class="key black" onclick="play('A#4')">A#</div>
+        <div class="key" onclick="play('B4')">B</div>
+    </div>
+</body>
+</html>
